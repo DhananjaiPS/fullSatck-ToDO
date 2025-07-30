@@ -7,9 +7,41 @@ import EditButton from "./components/EditButton"
 import DeleteButton from "./components/DeleteButton"
 import SearchButton from "./components/SearchButton"
 import Loader from "./components/Loader"
+import Link from "next/link"
+import { SessionOut } from "./actions/SessionOut"
+import  getSession from "@/app/actions/GetSession"
 export default function page() {
   //@ts-ignore
-  const { items, copy } = useContext(MainContext)
+  const { items, copy ,isLogin,setIsLogin} = useContext(MainContext)
+
+  console.log("copy",copy)
+
+   useEffect(()=>{
+    async function checkToken() {
+       const res=await getSession();
+       if(res){
+        setIsLogin(true);        
+       }
+            
+    }
+    checkToken();
+   },[isLogin]);
+   async function handelLogout(){
+  
+    const res=await SessionOut();
+    if(res.success){
+      setIsLogin(false);
+      alert(res.message)
+
+    }
+    else{
+      alert("LogOut Fails..")
+
+    }
+
+  
+  }
+
 
 if (items === undefined) {
   // Show loader until `items` is fetched or defined
@@ -42,7 +74,7 @@ if (items.length === 0) {
       <p className="text-lg font-extrabold">Add your first task!</p>
       <div className="mt-4">
         <AddToList />
-      </div>
+        </div>
     </div>
   );
 }
@@ -54,6 +86,27 @@ return (
     <div className="flex gap-4 justify-evenly items-center w-full h-[5vh] mb-7">
       <SearchButton />
       <AddToList />
+      {
+        !isLogin && 
+        <div className=" flex gap-5">
+
+          <Link href={"/signUp"}><button 
+           className="bg-blue-500 hover:bg-blue-700 text-white font-medium text-sm px-4 py-1 h-[5vh] rounded transition">Sign up</button>
+        
+          </Link> 
+  
+          <Link href={"/login"}><button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-medium text-sm px-4 py-1 h-[5vh] rounded transition"
+          >Login</button></Link>
+        </div>
+      }
+      {
+        isLogin && <button 
+         className="bg-red-500 hover:bg-red-700 text-white font-medium text-sm px-4 py-1 h-[5vh] rounded transition" onClick={handelLogout}>Logout</button>
+      
+       
+      }
+      
     </div>
 
     <div className="flex flex-wrap w-full gap-4 h-[30vh]">

@@ -119,6 +119,24 @@ exports.Prisma.TodoScalarFieldEnum = {
   description: 'description'
 };
 
+exports.Prisma.UserScalarFieldEnum = {
+  id: 'id',
+  username: 'username',
+  name: 'name',
+  email: 'email',
+  password: 'password',
+  avtar: 'avtar'
+};
+
+exports.Prisma.ProductScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  price: 'price',
+  thumbnail: 'thumbnail',
+  rating: 'rating'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -131,7 +149,9 @@ exports.Prisma.QueryMode = {
 
 
 exports.Prisma.ModelName = {
-  todo: 'todo'
+  todo: 'todo',
+  user: 'user',
+  product: 'product'
 };
 
 /**
